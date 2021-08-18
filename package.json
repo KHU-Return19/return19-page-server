@@ -1,0 +1,27 @@
+{
+  "name": "return19-page-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KHU-Return19/Return19-Page-Server.git"
+  },
+  "author": "return19",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KHU-Return19/Return19-Page-Server/issues"
+  },
+  "homepage": "https://github.com/KHU-Return19/Return19-Page-Server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
