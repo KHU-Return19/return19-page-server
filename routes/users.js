@@ -66,5 +66,9 @@ router.get("/logout", auth, (req,res)=>{
     })
 })
 
-
+router.get("/profile", auth, (req,res)=>{
+    User.findOne({_id:req.user.id},(err, user)=>{
+        res.json(user)
+    })
+})
 module.exports = router
