@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const { User } = require("../models/user")
+const { auth } = require('../middleware/auth')
+const cookieParser = require('cookie-parser')
 
 
 router.get('/',(req,res)=>{
@@ -18,7 +20,6 @@ router.post("/signup",(req,res)=>{
         }else{
             const newUser = new User(req.body)
             newUser.save((err, userInfo)=>{
-                console.log(err)
                 if(err) return res.json({ signup_success:false, err})
                 return res.status(201).json({
                     success: true,
@@ -52,6 +53,15 @@ router.post("/login", (req,res)=> {
                 })
             }
         
+        })
+    })
+})
+
+router.get("/logout", auth, (req,res)=>{
+    User.findOneAndUpdate({_id:req.user._id},{token: ""},(err,user)=>{
+        if(err) return res.json({logout_success:false, err})
+        return res.status(200).send({
+            logout_success:true
         })
     })
 })
