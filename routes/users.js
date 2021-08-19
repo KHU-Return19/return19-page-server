@@ -71,4 +71,5 @@ router.get("/profile", auth, (req,res)=>{
         res.json(user)
     })
 })
+
 module.exports = router
