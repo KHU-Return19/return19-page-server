@@ -16,7 +16,7 @@ router.post("/signup",(req,res)=>{
             return res.json({find_success:false, err})
         }
         if(user){
-            return res.json({signup_success:false, msg:"이미 가입된 이메일 입니다."})
+            return res.json({signup_success:false, msg:"This email already exists"})
         }else{
             const newUser = new User(req.body)
             newUser.save((err, userInfo)=>{
@@ -41,7 +41,7 @@ router.post("/login", (req,res)=> {
         user.comparePassword(req.body.password, (err, isMatch) =>{
             if(!isMatch){
                 return res.json({login_success: false,
-                    msg: "Wrong password"
+                    msg: "Password incorrect"
                 })
             }else{
                 user.generateToken((err,user)=>{
