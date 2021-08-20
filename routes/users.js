@@ -35,20 +35,21 @@ router.post("/login", (req,res)=> {
         if(!user){
             return res.json({
                 login_success:false,
-                msg: "존재하지 않는 이메일 입니다."
+                msg: "This email does not exist"
             })
         }
         user.comparePassword(req.body.password, (err, isMatch) =>{
             if(!isMatch){
                 return res.json({login_success: false,
-                    msg: "비밀번호가 틀렸습니다."
+                    msg: "Wrong password"
                 })
             }else{
                 user.generateToken((err,user)=>{
                     if(err) return res.send(err)
                     res.cookie("x_auth", user.token).status(200).json({
                         login_success: true,
-                        userId: user._id
+                        userId: user._id,
+                        token: user.token
                     })
                 })
             }
