@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 // use routes 
 app.use("/api/users/", userRoute)
-// app.use("/api/ongoing/", ongoingRoute)
+app.use("/api/ongoing/", ongoingRoute)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
