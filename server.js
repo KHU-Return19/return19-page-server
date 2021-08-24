@@ -1,7 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const cookieParser = require('cookie-parser')
-const { auth } = require('./middleware/auth')
+const cookieParser = require("cookie-parser")
+const { auth } = require("./middleware/auth")
 const app = express()
 const port = 8000
 
@@ -17,8 +17,8 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log("MongoDB Connected ..."))
 .catch(err => console.log(err))
 
-app.get('/', (req, res) => {
-  res.send('dev')
+app.get("/api/test/", (req, res) => {
+  res.send('test !!!')
 })
 
 // use routes 

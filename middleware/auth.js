@@ -1,15 +1,14 @@
-const { User } = require("../models/user");
+const jwt = require("jsonwebtoken")
 
 let auth = (req, res, next) =>{
-    const token = req.header("x-auth-token")
-    if(!token) return res.status(400).json({get_token_success:false,
+    let token = req.header("x-auth-token")
+
+    if(!token) return res.status(400).json({verifyToken:false,
     msg:"No token, authorization denied"})
     else{
-        User.findByToken(token, (err, user)=>{
-            if(err) throw err;
-            if(!user) return res.json({ auth_success:false})
-            req.token = token;
-            req.user = user;
+        let decoded = jwt.verify(token, process.env.JWTSECRET, (err, decoded)=>{
+            if(err) return res.status(400).json({verifyToken:false})
+            req.decoded = decoded
             next()
         })
     }
