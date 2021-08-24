@@ -5,6 +5,7 @@ const app = express()
 const port = 8000
 
 const userRoute = require("./routes/users")
+const ongoingRoute = require("./routes/ongoing")
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 // use routes 
 app.use("/api/users/", userRoute)
+// app.use("/api/ongoing/", ongoingRoute)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)

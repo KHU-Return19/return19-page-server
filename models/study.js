@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const User = require('./user.js')
-const Field = require('./field.js')
+const User = require('./user')
+const Field = require('./field')
 
 const studySchema = new mongoose.Schema({
     title:{
@@ -15,7 +15,7 @@ const studySchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:Field
     }],
-    cheif:{
+    name:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User
     },
@@ -29,5 +29,6 @@ const studySchema = new mongoose.Schema({
     }
 })
 
+// const Study = connection.model('studyModel', studySchema)
 const Study = mongoose.model('Study', studySchema)
 module.exports = { Study }
