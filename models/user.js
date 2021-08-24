@@ -73,8 +73,8 @@ userSchema.methods.generateToken = function(cb){
     })
     */
     // genereate Token
-    var token = jwt.sign( {userId : user._id}, process.env.JWTSECRET,{
-        expiresIn : "10m"}, (err, token)=>{
+    var token = jwt.sign( {userId : user._id}, process.env.JWT_SECRET,{
+        expiresIn : "1h"}, (err, token)=>{
             if(err) return cb(err)
             cb(null, token)
         })

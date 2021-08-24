@@ -2,7 +2,9 @@ const express = require("express")
 const router = express.Router();
 const { auth } = require("../middleware/auth")
 const { User } = require("../models/User")
+const cookieParser = require('cookie-parser')
 require("dotenv").config()
+router.use(cookieParser())
 
 router.get('/',(req,res)=>{
     res.send('user route test')
@@ -38,19 +40,21 @@ router.post("/login", (req,res)=> {
             })
         }
         user.comparePassword(req.body.password, (err, isMatch) =>{
-            if(!isMatch){
+            if(!isMatch)
                 return res.json({loginSuccess: false,
                     msg: "Password incorrect"
                 })
-            }else{
-                user.generateToken((err,token)=>{
-                    if(err) return res.send(err)
-                    res.status(200).json({
-                        loginSuccess: true,
-                        token: token
-                    })
+            
+            user.generateToken((err,token)=>{
+                if(err) return res.status(400).send(err)
+                    
+                //save token - cookie
+                res.cookie(process.env.COOKIE_SECRET,token).status(200).json({
+                    loginSuccess:true, token
                 })
-            }
+
+            })
+            
         
         })
     })
@@ -58,7 +62,7 @@ router.post("/login", (req,res)=> {
 
 router.get("/logout", auth, (req,res)=>{
     // expire refresh token
-    res.status(200).json({
+    res.clearCookie(process.env.COOKIE_SECRET).status(200).json({
         logoutSuccess:true
     })
 })
