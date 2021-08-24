@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const User = require('./user')
-const Field = require('./field')
+const { User } = require('./user')
+const { Field } = require('./field')
 
 const studySchema = new mongoose.Schema({
     title:{
@@ -29,6 +29,5 @@ const studySchema = new mongoose.Schema({
     }
 })
 
-// const Study = connection.model('studyModel', studySchema)
 const Study = mongoose.model('Study', studySchema)
 module.exports = { Study }
