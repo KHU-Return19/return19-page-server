@@ -11,13 +11,15 @@ const studySchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    field:[{
+    field:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:Field
-    }],
-    name:{
+        ref:Field,
+        required:true
+    },
+    user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:User
+        ref:User,
+        required:true
     },
     address:{
         type:String,
