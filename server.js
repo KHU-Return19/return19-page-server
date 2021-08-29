@@ -1,7 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
-const { auth } = require("./middleware/auth")
 const app = express()
 const port = 8000
 

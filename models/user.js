@@ -23,15 +23,19 @@ const userSchema = new mongoose.Schema({
     },
     interest:{
         type: String,
+        dafault: ""
     },
     bio :{
         type: String,
+        dafault:"Hi"
     },
     img:{
         type:String,
+        dafult:""
     },
     url : {
-        type:String
+        type:String,
+        dafault:""
     }
 
 })
