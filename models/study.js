@@ -15,7 +15,11 @@ const studySchema = new mongoose.Schema({
         ref:User,
         required:true
     },
-    address:{
+    about:{
+        type:String,
+        required:true
+    },
+    url:{
         type:String,
         required:true
     },

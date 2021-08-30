@@ -4,7 +4,7 @@ const { Event } = require("../models/event")
 const { auth } = require("../middleware/auth")
 
 router.get('/', (req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     Event.find({ user: userId }, function(err, event){
         if (err){
             return res.status(500).json({
@@ -40,7 +40,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/add', auth, (req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     let new_event = new Event({
         date: req.body.date,
         info: req.body.info,
@@ -65,7 +65,7 @@ router.post('/add', auth, (req, res) => {
 })
 
 router.delete('/del', auth, (req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     let result = await Event.deleteOne({
         _id: req.body._id,
         user: userId
@@ -84,7 +84,7 @@ router.delete('/del', auth, (req, res) => {
 })
 
 router.put('/modify', auth, (req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     let result = await Event.updateOne({
         _id: req.body._id,
         user: userId
