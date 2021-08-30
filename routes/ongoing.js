@@ -24,12 +24,12 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/add', auth, async(req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     let new_study = new Study({
         title: req.body.title,
         info: req.body.info,
-        address: req.body.address,
-        field: req.body.field,
+        url: req.body.url,
+        about: req.body.about,
         userid: userId
     })
 
@@ -52,45 +52,14 @@ router.post('/add', auth, async(req, res) => {
 })
 
 router.delete('/del', auth, async(req, res) => {
-    let { userId } = req.decode
+    let { userId } = req.decoded
     let result = await Study.deleteOne({
         _id: req.body._id,
         userid: userId
     })
     if (result.ok){
-        console.log(reslut)
-        return status(200).json({
+        return res.status(200).json({
             success:true
-        })
-    }
-    else{
-        return status(500).json({
-            success:false,
-            err
-        })
-    }
-})
-
-router.put('/update', auth, async(req, res) => {
-    let { userId } = req.decode
-    let result = await Study.updateOne({
-        _id: req.body._id,
-        userid: userId
-    },
-    {
-        $set: {
-            title: req.body.title,
-            info: req.body.info,
-            field: req.body.field,
-            isFin: req.body.isFin,
-            address: req.body.address
-        }
-    })
-    if (result.ok){
-        console.log(result)
-        return status(200).json({
-            success:true,
-            study:result
         })
     }
     else{
@@ -99,6 +68,47 @@ router.put('/update', auth, async(req, res) => {
             err
         })
     }
+})
+
+router.get('/load/:id', auth, (req, res) => {
+    let { userId } = req.decoded
+
+    Study.findOne({_id: req.params.id, userid:userId}, (err, study) =>{
+        if (err){
+            console.log(err)
+            return res.status(500).json({
+                success:false,
+                err
+            })
+        }
+        else {
+            return res.status(200).json({
+                success:true,
+                study: study
+            })
+        }
+    })
+})
+
+router.put('/update/:id', auth, (req, res) => {
+    let { userId } = req.decoded
+    Study.findOneAndUpdate({
+        _id: req.params.id,
+        userid: userId
+    }, {
+        title: req.body.title,
+        info: req.body.info,
+        about: req.body.about,
+        isFin: req.body.isFin,
+        url: req.body.url
+
+    },(err,user)=>{
+        if(err) res.json({success:false})
+        res.status(200).json({
+            success:true,
+        })
+    })
+          
 })
 
 module.exports = router

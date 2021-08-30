@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+const autoIncrement = require('mongoose-auto-increment')
 const { User } = require('./User')
+autoIncrement.initialize(mongoose.connection)
 
 const studySchema = new mongoose.Schema({
     title:{
@@ -7,7 +9,7 @@ const studySchema = new mongoose.Schema({
         required:true
     },
     info:{
-        tpye:String,
+        type:String,
         required:true
     },
     userid:{
@@ -15,7 +17,11 @@ const studySchema = new mongoose.Schema({
         ref:User,
         required:true
     },
-    address:{
+    about:{
+        type:String,
+        required:true
+    },
+    url:{
         type:String,
         required:true
     },
@@ -25,5 +31,11 @@ const studySchema = new mongoose.Schema({
     }
 })
 
+studySchema.plugin(autoIncrement.plugin,{
+    model: 'studies',
+    field: "seq",
+    startAt: 1,
+    increment: 1
+})
 const Study = mongoose.model('Study', studySchema)
 module.exports = { Study }
