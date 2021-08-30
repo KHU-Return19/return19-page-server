@@ -8,7 +8,7 @@ const studySchema = new mongoose.Schema({
         required:true
     },
     info:{
-        type:String,
+        tpye:String,
         required:true
     },
     field:{
@@ -16,7 +16,7 @@ const studySchema = new mongoose.Schema({
         ref:Field,
         required:true
     },
-    user:{
+    cheif:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User,
         required:true
