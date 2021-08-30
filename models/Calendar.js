@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { User } = require('./user')
 
-const EventSchema = new mongoose.Schema({
+const CalendarSchema = new mongoose.Schema({
     date:{
         type:Date,
         required:true
@@ -10,10 +10,6 @@ const EventSchema = new mongoose.Schema({
         type:String,
         default:'empty schedule'
     },
-    time:{
-        type:String,
-        defalut:'8:00 ~ 9:00'
-    },
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User,
@@ -21,5 +17,5 @@ const EventSchema = new mongoose.Schema({
     }
 })
 
-const Event = mongoose.model('Event', EventSchema)
-module.exports = { Event }
+const Calendar = mongoose.model('Calendar', CalendarSchema)
+module.exports = { Calendar }

@@ -6,7 +6,7 @@ const port = 8000
 
 const userRoute = require("./routes/users")
 const ongoingRoute = require("./routes/ongoing")
-const eventRoute = require('./routes/events')
+const eventRoute = require('./routes/calendar')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 

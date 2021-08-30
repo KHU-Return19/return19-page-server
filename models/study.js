@@ -7,7 +7,7 @@ const studySchema = new mongoose.Schema({
         required:true
     },
     info:{
-        tpye:String,
+        type:String,
         required:true
     },
     userid:{

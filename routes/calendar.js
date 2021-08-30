@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { Event } = require("../models/event")
+const { Calendar } = require("../models/Calendar")
 const { auth } = require("../middleware/auth")
 
 router.get('/', (req, res) => {
     let { userId } = req.decoded
-    Event.find({ user: userId }, function(err, event){
+    Calendar.find({ user: userId }, function(err, calendar){
         if (err){
             return res.status(500).json({
                 success:false,
@@ -15,14 +15,14 @@ router.get('/', (req, res) => {
         else{
             return res.status(200).json({
                 success:true,
-                event_list:event
+                calendar_list:calendar
             })
         }
     })
 })
 
 router.get('/:id', (req, res) => {
-    Event.findOne({_id: req.params.id}, (err, event) =>{
+    Calendar.findOne({_id: req.params.id}, (err, calendar) =>{
         if (err){
             console.log(err)
             return res.status(500).json({
@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
         else {
             return res.status(200).json({
                 success:true,
-                event: event
+                calendar: calendar
             })
         }
     })
@@ -41,14 +41,13 @@ router.get('/:id', (req, res) => {
 
 router.post('/add', auth, (req, res) => {
     let { userId } = req.decoded
-    let new_event = new Event({
+    let new_calendar = new Calendar({
         date: req.body.date,
         info: req.body.info,
-        time: req.body.time,
         user: userId
     })
 
-    new_event.save((err, data) => {
+    new_calendar.save((err, data) => {
         if (err){
             return res.status(500).json({
                 success:false,
@@ -58,7 +57,7 @@ router.post('/add', auth, (req, res) => {
         else {
             return res.status(200).json({
                 success:true,
-                event: new_event
+                calendar: new_calendar
             })
         }
     })
@@ -66,7 +65,7 @@ router.post('/add', auth, (req, res) => {
 
 router.delete('/del', auth, (req, res) => {
     let { userId } = req.decoded
-    let result = await Event.deleteOne({
+    let result = await Calendar.deleteOne({
         _id: req.body._id,
         user: userId
     })
@@ -85,15 +84,14 @@ router.delete('/del', auth, (req, res) => {
 
 router.put('/modify', auth, (req, res) => {
     let { userId } = req.decoded
-    let result = await Event.updateOne({
+    let result = await Calendar.updateOne({
         _id: req.body._id,
         user: userId
     },
     {
         $set: {
             date: req.body.date,
-            info: req.body.info,
-            time: req.body.time,
+            info: req.body.info
         }
     })
     if (result.ok){
