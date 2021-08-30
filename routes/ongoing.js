@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { User } = require("../models/user")
-const { Study } = require("../models/study")
-const { Field } = require('../models/field')
+const { User } = require("../models/User")
+const { Study } = require("../models/Study")
 const { auth } = require('../middleware/auth')
 
 router.get('/', (req, res, next) => {
@@ -31,7 +30,7 @@ router.post('/add', auth, async(req, res) => {
         info: req.body.info,
         address: req.body.address,
         field: req.body.field,
-        cheif: userId
+        userid: userId
     })
 
     new_study.save(function(err, data){
@@ -52,34 +51,11 @@ router.post('/add', auth, async(req, res) => {
     })
 })
 
-router.post('/addField', async(req, res) => {
-    let new_field = new Field({
-        field: req.body.field
-    })
-
-    new_field.save(function(err, data){
-        if (err){
-            console.log(err)
-            return res.status(500).json({
-                success:false,
-                err
-            })
-        }
-        else {
-            console.log(data)
-            return res.status(200).json({
-                success:true,
-                field:new_field
-            })
-        }
-    })
-})
-
 router.delete('/del', auth, async(req, res) => {
     let { userId } = req.decode
     let result = await Study.deleteOne({
         _id: req.body._id,
-        cheif: userId
+        userid: userId
     })
     if (result.ok){
         console.log(reslut)
@@ -95,11 +71,11 @@ router.delete('/del', auth, async(req, res) => {
     }
 })
 
-router.put('/modify', auth, async(req, res) => {
+router.put('/update', auth, async(req, res) => {
     let { userId } = req.decode
     let result = await Study.updateOne({
         _id: req.body._id,
-        cheif: userId
+        userid: userId
     },
     {
         $set: {

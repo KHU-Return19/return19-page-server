@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const { User } = require('./user')
-const { Field } = require('./field')
+const { User } = require('./User')
 
 const studySchema = new mongoose.Schema({
     title:{
@@ -11,12 +10,7 @@ const studySchema = new mongoose.Schema({
         tpye:String,
         required:true
     },
-    field:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:Field,
-        required:true
-    },
-    cheif:{
+    userid:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User,
         required:true
