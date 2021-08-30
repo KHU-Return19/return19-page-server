@@ -9,11 +9,17 @@ router.get('/', (req, res, next) => {
     Study.find(function(err, study){
         if (err){
             console.log(err)
-            return res.status(500).json({ message: "NaN" })
+            return res.status(500).json({
+                success:false,
+                err
+            })
         }
         else{
             console.log(study)
-            return res.status(200).json(study)
+            return res.status(200).json({
+                success:true,
+                study_list:study
+            })
         }
     })
 })
@@ -31,11 +37,17 @@ router.post('/add', auth, async(req, res) => {
     new_study.save(function(err, data){
         if (err){
             console.log(err)
-            return res.status(500).json({ message: "Add failed." })
+            return res.status(500).json({
+                success:false,
+                err
+            })
         }
         else {
             console.log(data)
-            return res.status(200).json({ message: "Success" })
+            return res.status(200).json({
+                success:true,
+                study:new_study
+            })
         }
     })
 })
@@ -48,11 +60,17 @@ router.post('/addField', async(req, res) => {
     new_field.save(function(err, data){
         if (err){
             console.log(err)
-            return res.status(500).json({ message: "Add failed." })
+            return res.status(500).json({
+                success:false,
+                err
+            })
         }
         else {
             console.log(data)
-            return res.status(200).json({ message: "Success" })
+            return res.status(200).json({
+                success:true,
+                field:new_field
+            })
         }
     })
 })
@@ -65,10 +83,15 @@ router.delete('/del', auth, async(req, res) => {
     })
     if (result.ok){
         console.log(reslut)
-        return status(200).json({ message: "Success" })
+        return status(200).json({
+            success:true
+        })
     }
     else{
-        return status(500).json({ message: "Delete failed." })
+        return status(500).json({
+            success:false,
+            err
+        })
     }
 })
 
@@ -89,10 +112,16 @@ router.put('/modify', auth, async(req, res) => {
     })
     if (result.ok){
         console.log(result)
-        return status(200).json({ message: "Success" })
+        return status(200).json({
+            success:true,
+            study:result
+        })
     }
     else{
-        return res.status(500).json({ message: "Modify failed." })
+        return res.status(500).json({
+            success:false,
+            err
+        })
     }
 })
 
