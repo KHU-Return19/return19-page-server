@@ -1,14 +1,13 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cookieParser = require("cookie-parser")
-const autoIncrement = require('mongoose-auto-increment')
 const app = express()
 const port = 8000
 require("dotenv").config()
 
 const userRoute = require("./routes/users")
-const ongoingRoute = require("./routes/ongoing")
-
+const studyRoute = require("./routes/study")
+const calendarRoute = require("./routes/calendar")
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
@@ -19,13 +18,11 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.log(err))
 
 
-app.get("/api/test/", (req, res) => {
-  res.send('test !!!')
-})
 
 // use routes 
 app.use("/api/users/", userRoute)
-app.use("/api/ongoing/", ongoingRoute)
+app.use("/api/study/", studyRoute)
+app.use("/api/calendar/", calendarRoute)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)

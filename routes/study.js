@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const { User } = require("../models/User")
 const { Study } = require("../models/Study")
 const { auth } = require('../middleware/auth')
 
@@ -51,23 +50,12 @@ router.post('/add', auth, async(req, res) => {
     })
 })
 
-router.delete('/del', auth, async(req, res) => {
+router.delete('/del/:id', auth, (req, res) => {
     let { userId } = req.decoded
-    let result = await Study.deleteOne({
-        _id: req.body._id,
-        userid: userId
+    Study.findOneAndDelete({_id:req.params.id, userid:userId}, (err, study)=>{
+        if(err) res.json({success:false})
+        res.json({success:true})
     })
-    if (result.ok){
-        return res.status(200).json({
-            success:true
-        })
-    }
-    else{
-        return res.status(500).json({
-            success:false,
-            err
-        })
-    }
 })
 
 router.get('/load/:id', auth, (req, res) => {
