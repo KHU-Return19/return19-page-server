@@ -72,10 +72,11 @@ router.delete('/del', auth, async(req, res) => {
     }
 })
 
-router.put('/modify', async(req, res) => {
+router.put('/modify', auth, async(req, res) => {
+    let { userId } = req.decode
     let result = await Study.updateOne({
         _id: req.body._id,
-        user: req.body.user
+        cheif: userId
     },
     {
         $set: {
