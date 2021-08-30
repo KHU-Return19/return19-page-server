@@ -1,88 +1,76 @@
 const express = require('express')
 const router = express.Router()
-const { User } = require("../models/user")
-const { Study } = require("../models/study")
-const { Field } = require('../models/field')
-const { auth } = require('../middleware/auth')
+const { Event } = require("../models/event")
+const { auth } = require("../middleware/auth")
 
-router.get('/', (req, res, next) => {
-    Study.find(function(err, study){
+router.get('/', (req, res) => {
+    let { userId } = req.decode
+    Event.find({ user: userId }, function(err, event){
         if (err){
-            console.log(err)
             return res.status(500).json({
                 success:false,
                 err
             })
         }
         else{
-            console.log(study)
             return res.status(200).json({
                 success:true,
-                study_list:study
+                event_list:event
             })
         }
     })
 })
 
-router.post('/add', auth, async(req, res) => {
+router.get('/:id', (req, res) => {
+    Event.findOne({_id: req.params.id}, (err, event) =>{
+        if (err){
+            console.log(err)
+            return res.status(500).json({
+                success:false,
+                err
+            })
+        }
+        else {
+            return res.status(200).json({
+                success:true,
+                event: event
+            })
+        }
+    })
+})
+
+router.post('/add', auth, (req, res) => {
     let { userId } = req.decode
-    let new_study = new Study({
-        title: req.body.title,
+    let new_event = new Event({
+        date: req.body.date,
         info: req.body.info,
-        address: req.body.address,
-        field: req.body.field,
-        cheif: userId
+        time: req.body.time,
+        user: userId
     })
 
-    new_study.save(function(err, data){
+    new_event.save((err, data) => {
         if (err){
-            console.log(err)
             return res.status(500).json({
                 success:false,
                 err
             })
         }
         else {
-            console.log(data)
             return res.status(200).json({
                 success:true,
-                study:new_study
+                event: new_event
             })
         }
     })
 })
 
-router.post('/addField', async(req, res) => {
-    let new_field = new Field({
-        field: req.body.field
-    })
-
-    new_field.save(function(err, data){
-        if (err){
-            console.log(err)
-            return res.status(500).json({
-                success:false,
-                err
-            })
-        }
-        else {
-            console.log(data)
-            return res.status(200).json({
-                success:true,
-                field:new_field
-            })
-        }
-    })
-})
-
-router.delete('/del', auth, async(req, res) => {
+router.delete('/del', auth, (req, res) => {
     let { userId } = req.decode
-    let result = await Study.deleteOne({
+    let result = await Event.deleteOne({
         _id: req.body._id,
-        cheif: userId
+        user: userId
     })
     if (result.ok){
-        console.log(reslut)
         return status(200).json({
             success:true
         })
@@ -95,26 +83,22 @@ router.delete('/del', auth, async(req, res) => {
     }
 })
 
-router.put('/modify', auth, async(req, res) => {
+router.put('/modify', auth, (req, res) => {
     let { userId } = req.decode
-    let result = await Study.updateOne({
+    let result = await Event.updateOne({
         _id: req.body._id,
-        cheif: userId
+        user: userId
     },
     {
         $set: {
-            title: req.body.title,
+            date: req.body.date,
             info: req.body.info,
-            field: req.body.field,
-            isFin: req.body.isFin,
-            address: req.body.address
+            time: req.body.time,
         }
     })
     if (result.ok){
-        console.log(result)
         return status(200).json({
-            success:true,
-            study:result
+            success:true
         })
     }
     else{
@@ -124,5 +108,3 @@ router.put('/modify', auth, async(req, res) => {
         })
     }
 })
-
-module.exports = router
