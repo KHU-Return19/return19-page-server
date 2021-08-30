@@ -1,18 +1,16 @@
-const { User } = require("../models/user");
+const jwt = require("jsonwebtoken")
 
 let auth = (req, res, next) =>{
-    const token = req.header("x-auth-token")
-    if(!token) return res.status(400).json({get_token_success:false,
-    msg:"No token, authorization denied"})
-    else{
-        User.findByToken(token, (err, user)=>{
-            if(err) throw err;
-            if(!user) return res.json({ auth_success:false})
-            req.token = token;
-            req.user = user;
+    //let token = req.header("x-auth-token")
+    // HTTP ONLY COOKIE
+    let token = req.cookies[process.env.COOKIE_SECRET]
+    if(!token) return res.json({isAuth:false})
+    let decoded = jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
+            if(err) throw err
+            req.decoded = decoded
             next()
-        })
-    }
+    })
+    
 }
 
 module.exports = { auth };
