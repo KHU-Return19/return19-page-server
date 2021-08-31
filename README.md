@@ -8,5 +8,5 @@
 * study
 * calendar
 ### Run
-* [Setting]()
+* setting repository
 
