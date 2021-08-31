@@ -4,12 +4,9 @@
 
 
 ### Current Feature
-* signup
-* login/logout
+* signup/login/logout
 * study
-  * study CRUD
 * calendar
-  * calendar CRUD
 ### Run
 * [Setting]()
 
