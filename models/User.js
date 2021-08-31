@@ -18,24 +18,19 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     birthday:{
-        type:Date,
-        required: true,
+        type:Date
     },
     interest:{
         type: String,
-        dafault: ""
     },
     bio :{
         type: String,
-        dafault:"Hi"
     },
     img:{
         type:String,
-        dafult:""
     },
     url : {
         type:String,
-        dafault:""
     }
 
 })
