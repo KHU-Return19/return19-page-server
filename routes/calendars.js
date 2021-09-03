@@ -14,15 +14,15 @@ router.get('/', auth, (req, res) => {
         else{
             return res.status(200).json({
                 success:true,
-                calendar_list:calendar
+                calendars:calendar
             })
         }
     })
 })
 
-router.get('/load/:id', auth, (req, res) => {
+router.get('/:id', auth, (req, res) => {
     let { userId }= req.decoded
-    Calendar.findOne({_id: req.params.id,userid:userId }, (err, calendar) =>{
+    Calendar.findOne({_id: req.params.id,userId:userId }, (err, calendar) =>{
         if (err){
             console.log(err)
             return res.status(500).json({
@@ -39,15 +39,15 @@ router.get('/load/:id', auth, (req, res) => {
     })
 })
 
-router.post('/add', auth, (req, res) => {
+router.post('/', auth, (req, res) => {
     let { userId } = req.decoded
-    let new_calendar = new Calendar({
+    let newCalendar = new Calendar({
         date: req.body.date,
         info: req.body.info,
-        userid: userId
+        userId: userId
     })
 
-    new_calendar.save((err, data) => {
+    newCalendar.save((err, data) => {
         if (err){
             return res.status(500).json({
                 success:false,
@@ -57,25 +57,25 @@ router.post('/add', auth, (req, res) => {
         else {
             return res.status(200).json({
                 success:true,
-                calendar: new_calendar
+                calendar: newCalendar
             })
         }
     })
 })
 
-router.delete('/del/:id', auth, (req, res) => {
+router.delete('/:id', auth, (req, res) => {
     let { userId } = req.decoded
-    Calendar.findOneAndDelete({_id:req.params.id, userid:userId}, (err, calendar)=>{
+    Calendar.findOneAndDelete({_id:req.params.id, userId:userId}, (err, calendar)=>{
         if(err) res.json({success:false})
         res.json({success:true})
     })
 })
 
-router.put('/update/:id', auth, (req, res) => {
+router.put('/:id', auth, (req, res) => {
     let { userId } = req.decoded
     Calendar.findOneAndUpdate({
         _id: req.params.id,
-        userid: userId
+        userId: userId
     }, {
         date: req.body.date,
         info: req.body.info

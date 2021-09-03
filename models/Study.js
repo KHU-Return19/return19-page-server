@@ -12,7 +12,7 @@ const studySchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    userid:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User,
         required:true

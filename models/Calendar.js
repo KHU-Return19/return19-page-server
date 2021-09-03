@@ -10,7 +10,7 @@ const CalendarSchema = new mongoose.Schema({
         type:String,
         default:'empty schedule'
     },
-    userid:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:User,
         required:true

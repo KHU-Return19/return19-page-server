@@ -79,7 +79,7 @@ router.get("/profile", auth, (req,res)=> {
     })
 })
 
-router.put("/profile/update", auth, (req,res)=>{
+router.put("/profile", auth, (req,res)=>{
     let { userId } = req.decoded
     // todo - img, password
     let {birthday, bio, interest, url} = req.body
@@ -114,7 +114,7 @@ router.get("/auth", auth, (req, res) => {
 });
 
 
-router.get('/members',(req,res)=>{
+router.get('/list',(req,res)=>{
     User.find({}, (err, users)=>{
         if(err) res.json({
             success:flase,

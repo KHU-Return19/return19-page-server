@@ -3,7 +3,7 @@ const router = express.Router()
 const { Study } = require("../models/Study")
 const { auth } = require('../middleware/auth')
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     Study.find(function(err, study){
         if (err){
             console.log(err)
@@ -16,23 +16,23 @@ router.get('/', (req, res, next) => {
             console.log(study)
             return res.status(200).json({
                 success:true,
-                study_list:study
+                studies:study
             })
         }
     })
 })
 
-router.post('/add', auth, async(req, res) => {
+router.post('/', auth, async(req, res) => {
     let { userId } = req.decoded
-    let new_study = new Study({
+    let newStudy = new Study({
         title: req.body.title,
         info: req.body.info,
         url: req.body.url,
         about: req.body.about,
-        userid: userId
+        userId: userId
     })
 
-    new_study.save(function(err, data){
+    newStudy.save(function(err, data){
         if (err){
             console.log(err)
             return res.status(500).json({
@@ -44,24 +44,24 @@ router.post('/add', auth, async(req, res) => {
             console.log(data)
             return res.status(200).json({
                 success:true,
-                study:new_study
+                study:newStudy
             })
         }
     })
 })
 
-router.delete('/del/:id', auth, (req, res) => {
+router.delete('/:id', auth, (req, res) => {
     let { userId } = req.decoded
-    Study.findOneAndDelete({_id:req.params.id, userid:userId}, (err, study)=>{
+    Study.findOneAndDelete({_id:req.params.id, userId:userId}, (err, study)=>{
         if(err) res.json({success:false})
         res.json({success:true})
     })
 })
 
-router.get('/load/:id', auth, (req, res) => {
+router.get('/:id', auth, (req, res) => {
     let { userId } = req.decoded
 
-    Study.findOne({_id: req.params.id, userid:userId}, (err, study) =>{
+    Study.findOne({_id: req.params.id, userId:userId}, (err, study) =>{
         if (err){
             console.log(err)
             return res.status(500).json({
@@ -78,11 +78,11 @@ router.get('/load/:id', auth, (req, res) => {
     })
 })
 
-router.put('/update/:id', auth, (req, res) => {
+router.put('/:id', auth, (req, res) => {
     let { userId } = req.decoded
     Study.findOneAndUpdate({
         _id: req.params.id,
-        userid: userId
+        userId: userId
     }, {
         title: req.body.title,
         info: req.body.info,
